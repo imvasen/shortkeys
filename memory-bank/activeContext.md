@@ -1,0 +1,57 @@
+# Active context
+
+*Updated 2026-09-24.*
+
+## Branch
+
+`agentic-training`, forked from `master`. `CLAUDE.md` is committed here
+(`a959d44`). Everything below it is **uncommitted working tree**.
+
+## In flight — issue #975, part 1 of 3
+
+*"Command palette should surface all available actions, not only configured
+shortcuts."* The issue asks for three things. Only the first is being done:
+**unassigned built-in actions are searchable and runnable from the palette.**
+
+Deferred on purpose, as separate commits: showing keybindings next to configured
+shortcuts, and result ranking.
+
+### Changed
+
+| File | What |
+| --- | --- |
+| `src/utils/palette.ts` | new — `buildPaletteEntries`, `filterPaletteEntries`, `ACTIONS_REQUIRING_CONFIG` |
+| `src/entrypoints/popup/App.vue` | uses them; renders a "Run" chip where a keybinding would be |
+| `tests/palette.test.ts` | new — 10 tests |
+| `scripts/visual-review.ts` | one new capture; the script could not see the feature |
+
+### Two decisions worth remembering
+
+1. **Which actions may appear unbound.** Not the registry's `builtin: true`
+   flag — it is inconsistent, and it would have excluded `movetabtonewwindow`,
+   which the issue names. `ACTIONS_REQUIRING_CONFIG` lists the 15 actions whose
+   handlers read a per-shortcut field instead, verified by reading the handlers.
+2. **An empty query still shows only configured shortcuts.** Listing 90+ actions
+   on open would bury what the user set up, and reordering is one of the
+   deferred asks.
+
+### State
+
+- `npm test` — 850 passed, 31 files.
+- `npm run build` — passes.
+- `screenshots/popup-unassigned-action.png` — the row renders in real Chrome.
+- Real-browser check — the entry **executes**: 3 tabs → 0.
+- **Not proven:** that it spares *the current* tab. In the harness the popup is
+  its own tab, so it counts as current. Needs `npm run dev`.
+
+## Next action
+
+Test in `npm run dev`. Then decide whether to commit.
+
+## Also on this branch
+
+Two artifacts from the BLA agentic-development training, both real and in use:
+
+- `.claude/skills/verify-extension-change/` — the verification loop above,
+  written down as a skill, with a reusable Chrome harness.
+- `memory-bank/` — this folder.
