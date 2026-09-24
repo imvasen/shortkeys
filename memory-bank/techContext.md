@@ -32,7 +32,7 @@ npm run test:e2e      # Playwright
 ```
 src/entrypoints/   background.ts, content.ts, options/, popup/
 src/actions/       action-handlers.ts — the handler map
-src/utils/         15 modules: storage, actions-registry, palette, url-matching,
+src/utils/         16 modules: storage, actions-registry, palette, url-matching,
                    link-hints, hint-targets, smooth-scroll, js-snippets, …
 src/composables/   16 composables: useShortcuts, useVimSettings, usePacks, …
 packs/official/    5 shipped packs
@@ -42,8 +42,10 @@ tests/  e2e/  site/
 
 ## Environment
 
-Node 18+. No API keys, no services, no database. `npm install && npm test` is
-the whole setup.
+CI runs Node 22.x (`.github/workflows/ci.yml`). `package.json` declares no
+`engines` field, so nothing enforces a floor — do not quote a minimum version as
+if the repo stated one. No API keys, no services, no database.
+`npm install && npm test` is the whole setup.
 
 ## Verification harness
 

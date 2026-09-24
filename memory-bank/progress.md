@@ -4,9 +4,9 @@
 
 ## Works
 
-- 111 actions across the registry, dispatching through the handler map.
+- 135 actions in 12 categories, dispatching through the handler map.
 - Per-site and global shortcuts, URL and title matching, groups, blacklists.
-- 5 official packs plus community packs; import and export; share links.
+- 9 official packs and 5 community packs; import and export; share links.
 - Vim navigation — link hints, smooth scrolling, per-shortcut overrides.
 - Command palette in the browser-action popup, with quick-add.
 - v4 data reads unchanged, including the legacy single `"keys"` storage entry.

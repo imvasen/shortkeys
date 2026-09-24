@@ -33,3 +33,29 @@ shape.
 
 Every claim here carries a verification date. A claim with no date is a guess —
 delete it or verify it.
+
+## Re-derive the counts, never retype them
+
+Every number below was wrong in the first draft of this folder, because it was
+counted by eye or by a regex that silently missed rows. Run the command.
+
+```bash
+npx tsx -e "import {ACTION_CATEGORIES} from './src/utils/actions-registry'
+  const a = Object.values(ACTION_CATEGORIES).flat()
+  console.log(a.length, 'actions in', Object.keys(ACTION_CATEGORIES).length, 'categories')"
+
+grep -c "'[0-9][0-9]-" wxt.config.ts   # manifest commands — append-only, rule 1
+ls src/utils/*.ts | wc -l              # utils modules
+ls src/composables/*.ts | wc -l        # composables
+ls packs/official/*.json | wc -l       # shipped packs
+ls packs/community/*.json | wc -l
+npm test                               # test count and file count
+grep -n node-version .github/workflows/ci.yml   # the Node version CI actually uses
+```
+
+Two traps that produced real errors here:
+
+- `ls … | head -5` prints five rows whether there are five or nine. Pipe to
+  `wc -l`, never to `head`.
+- A regex over `actions-registry.ts` missed 24 of 135 entries. Import the module
+  and count the array instead of matching its source text.

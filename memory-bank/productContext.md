@@ -15,8 +15,9 @@ memorised. They want nothing to change. They are the reason for the append-only
 manifest rule and the v4 compatibility path.
 
 **New users** who install it and find a blank options page. They are the reason
-for the shortcut packs (`packs/official/`: developer, emacs, keyboard-power,
-media-control, productivity), the onboarding wizard, and the command palette.
+for the 9 shipped packs in `packs/official/` — developer, emacs, keyboard-power,
+media-control, productivity, reading, tab-manager, vim, youtube — the onboarding
+wizard, and the command palette.
 
 ## How it should feel
 

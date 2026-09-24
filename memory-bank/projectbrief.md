@@ -8,7 +8,8 @@ Work lands on the fork. Never open a pull request against `upstream` by accident
 
 ## What it must do
 
-1. Let a user bind a key to any of ~111 built-in actions, per site or globally.
+1. Let a user bind a key to any of 135 built-in actions across 12 categories,
+   per site or globally.
 2. Keep every shortcut a user already configured working, across versions.
 3. Fire reliably in a live page, on Chrome, Firefox, Edge and Opera.
 
