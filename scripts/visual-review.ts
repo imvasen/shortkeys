@@ -72,6 +72,17 @@ async function main() {
     fullPage: true,
   })
 
+  // 4b. Screenshot: Popup — searching an action the user never bound (#975)
+  console.log('Capturing popup (unassigned action search)...')
+  await popupPage.fill('.search-bar input', 'close other tabs')
+  await popupPage.waitForSelector('.result-row', { timeout: 3000 })
+  await popupPage.waitForTimeout(300)
+  await popupPage.screenshot({
+    path: path.join(SCREENSHOT_DIR, 'popup-unassigned-action.png'),
+    fullPage: true,
+  })
+  await popupPage.fill('.search-bar input', '')
+
   // 5. Screenshot: Popup — quick-add form
   console.log('Capturing popup (quick-add form)...')
   await popupPage.click('.settings-link:has(.mdi-plus)')
@@ -231,6 +242,7 @@ async function main() {
 
   console.log(`\nDone! Screenshots saved to ${SCREENSHOT_DIR}/`)
   console.log('  - popup-empty.png')
+  console.log('  - popup-unassigned-action.png')
   console.log('  - popup-quick-add.png')
   console.log('  - popup-quick-add-dropdown.png')
   console.log('  - onboarding-wizard.png')

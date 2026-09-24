@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
-import { ACTION_CATEGORIES, getActionOptionsForSelect } from '@/utils/actions-registry'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { getActionOptionsForSelect } from '@/utils/actions-registry'
+import { buildPaletteEntries, filterPaletteEntries } from '@/utils/palette'
+import type { PaletteEntry } from '@/utils/palette'
 import type { KeySetting } from '@/utils/url-matching'
 import ShortcutRecorder from '@/components/ShortcutRecorder.vue'
 import SearchSelect from '@/components/SearchSelect.vue'
@@ -49,39 +51,23 @@ async function saveNewShortcut() {
   cancelCreating()
 }
 
-const actionLabels = computed(() => {
-  const map: Record<string, string> = {}
-  for (const actions of Object.values(ACTION_CATEGORIES)) {
-    for (const a of actions) map[a.value] = a.label
-  }
-  return map
-})
+const paletteEntries = computed(() => buildPaletteEntries(keys.value))
 
-const filtered = computed(() => {
-  const q = query.value.toLowerCase().trim()
-  const active = keys.value.filter((k) => k.enabled !== false && k.key && k.action)
-  if (!q) return active
-  return active.filter((k) => {
-    const label = (k.label || '').toLowerCase()
-    const key = (k.key || '').toLowerCase()
-    const action = (actionLabels.value[k.action] || k.action || '').toLowerCase()
-    return label.includes(q) || key.includes(q) || action.includes(q)
-  })
-})
+const filtered = computed(() => filterPaletteEntries(paletteEntries.value, query.value))
 
-function getLabel(k: KeySetting): string {
-  return k.label || actionLabels.value[k.action] || k.action || ''
-}
+// The list length changes as the user types, so a stale index could fire the
+// wrong row — or none at all — on Enter.
+watch(query, () => { selectedIndex.value = 0 })
 
 function formatKey(key: string): string[] {
   return key.split('+').map((p) => p.trim())
 }
 
-async function triggerShortcut(k: KeySetting) {
+async function triggerShortcut(entry: PaletteEntry) {
   // Send message to background to execute
   await chrome.runtime.sendMessage({
-    action: k.action,
-    ...k,
+    action: entry.action,
+    ...entry.payload,
   })
   window.close()
 }
@@ -163,16 +149,20 @@ onMounted(async () => {
         @mouseenter="selectedIndex = i"
       >
         <div class="result-info">
-          <span class="result-label">{{ getLabel(k) }}</span>
-          <span class="result-action">{{ actionLabels[k.action] || k.action }}</span>
+          <span class="result-label">{{ k.label }}</span>
+          <span class="result-action" v-if="k.sublabel">{{ k.sublabel }}</span>
         </div>
-        <div class="result-key">
+        <div class="result-key" v-if="k.key">
           <kbd v-for="(part, pi) in formatKey(k.key)" :key="pi">{{ part }}</kbd>
+        </div>
+        <div class="result-key" v-else>
+          <span class="result-unassigned">Run</span>
         </div>
       </button>
     </div>
     <div v-else-if="!creating" class="empty">
-      <span v-if="keys.length === 0">No shortcuts configured</span>
+      <span v-if="query.trim()">No matching actions</span>
+      <span v-else-if="keys.length === 0">No shortcuts configured</span>
       <span v-else>No matching shortcuts</span>
     </div>
     <div class="footer">
@@ -288,6 +278,12 @@ body {
   color: #475569;
   line-height: 1.4;
   text-transform: capitalize;
+}
+
+.result-unassigned {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.4;
 }
 
 .empty {
