@@ -1,6 +1,6 @@
 ---
 name: verify-extension-change
-description: Prove a Shortkeys change actually works in a browser before reporting it done — unit tests, build, visual review, then a real-Chrome check that the behaviour fires. Use after any edit under src/, and whenever a change touches the popup, the options page, a content script, or an action handler. Also use when asked to verify, check, or confirm that an extension change works.
+description: Prove a Shortkeys change actually works in a browser before reporting it done — unit tests, build, visual review, then a real-Chrome check that the behaviour fires. Use after any edit under src/, and whenever a change touches the popup, the options page, a content script, or an action handler. Use it whenever the question is whether a change is safe to ship, ready to merge, ready to commit, or done — as well as when asked to verify, check, test or confirm that an extension change works. Loads the Playwright harness in its scripts/ folder for the real-browser step.
 ---
 
 # Verify a Shortkeys change

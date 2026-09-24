@@ -10,7 +10,7 @@ real people rely on every day.
 
 **Then read `memory-bank/`.** This file holds the rules. `memory-bank/` holds the
 state — what is in flight, what is settled, what is known broken. Start with
-`memory-bank/activeContext.md` and `memory-bank/progress.md`; they are updated at
+`memory-bank/active_context.md` and `memory-bank/progress.md`; they are updated at
 the end of any session that changed code.
 
 ---

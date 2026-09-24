@@ -17,7 +17,7 @@
 
 **Issue #975, part 1** — unassigned built-in actions in the palette. Code
 complete and verified in Chrome; waiting on a live `npm run dev` check. See
-`activeContext.md`.
+`active_context.md`.
 
 ## Not started
 

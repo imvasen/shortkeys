@@ -7,12 +7,16 @@ Read in this order:
 
 | File | Answers |
 | --- | --- |
-| `projectbrief.md` | What this is and what it must never break |
-| `productContext.md` | Who uses it and why it exists |
-| `systemPatterns.md` | How the pieces fit together |
-| `techContext.md` | Stack, commands, environment |
-| `activeContext.md` | What is in flight **right now** |
-| `progress.md` | What works, what is left, known issues |
+| `project_brief.md` | Goals and scope — what this is, and what it must never break |
+| `product_context.md` | Who uses it and why it exists |
+| `tech_context.md` | Stack, commands, environment, and how the pieces fit together |
+| `active_context.md` | What is in flight **right now** |
+| `progress.md` | Status — what works, what is left, known issues |
+
+Five files, as the Session 4 spec asks, each well under 200 lines. Architecture
+lives in `tech_context.md`, which is where the session-end ritual says to put an
+architecture choice. This README is a guide to the folder, not a sixth memory
+file.
 
 ## Division of labour
 
@@ -25,9 +29,17 @@ change rarely; state changes every session.
 `AGENTS.md` is the long-tail reference. Where it disagrees with `CLAUDE.md`,
 `CLAUDE.md` wins.
 
+## Keep episodic content out of semantic memory
+
+`active_context.md` is episodic — what is happening now. `project_brief.md`,
+`product_context.md` and `tech_context.md` are semantic — what is true in
+general. When work finishes, its outcome moves to `progress.md` and its detail
+moves into a commit message body. Do not let `active_context.md` become a
+graveyard of old notes.
+
 ## Update rule
 
-`activeContext.md` and `progress.md` are updated at the end of any session that
+`active_context.md` and `progress.md` are updated at the end of any session that
 changed the code. The other four change only when the project itself changes
 shape.
 
