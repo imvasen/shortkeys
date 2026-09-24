@@ -8,6 +8,11 @@ has 200,000+ Chrome users. MIT licensed, currently v5.0.1.
 format is shared with v4, so a careless change silently breaks shortcuts that
 real people rely on every day.
 
+**Then read `memory-bank/`.** This file holds the rules. `memory-bank/` holds the
+state — what is in flight, what is settled, what is known broken. Start with
+`memory-bank/activeContext.md` and `memory-bank/progress.md`; they are updated at
+the end of any session that changed code.
+
 ---
 
 ## The three never-ever rules
@@ -99,6 +104,11 @@ A change is done when **all** of these hold:
 4. The user confirmed the behaviour in `npm run dev`.
 
 Do not report a task complete on 1 and 2 alone.
+
+Step 4 is manual and slow. Before you hand work back, close most of the gap with
+the **`verify-extension-change` skill** — it runs the four-step loop and proves
+the behaviour in real Chrome, so the user is confirming a change that already
+ran, not debugging one that never did.
 
 ---
 
